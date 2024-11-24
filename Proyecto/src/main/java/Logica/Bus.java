@@ -38,6 +38,9 @@ public abstract class Bus implements Cloneable {
             throw new RuntimeException("Error al clonar el bus", e);
         }
     }
+    public void setPatente(String patente) {
+        this.patente = patente;
+    }
 
     public String getPatente() {
         return patente;
