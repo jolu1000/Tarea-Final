@@ -1,34 +1,28 @@
 package Logica;
 
 public abstract class Asiento implements Cloneable {
-    private String Id;
-    private boolean ocupado;
-    private double precio;
+    protected String Id;
+    protected boolean disponible = true;
+    protected int precio;
 
-    public Asiento(String Id, double precio) {
+    public Asiento(String Id , int precio) {
         this.Id = Id;
         this.precio = precio;
-        this.ocupado = false;
     }
 
-    public String getId() {
+    public String getIdentificador() {
         return Id;
     }
 
-    public boolean isOcupado() {
-        return ocupado;
+    public boolean isDisponible() {
+        return disponible;
     }
 
-    public void setOcupado(boolean ocupado) {
-        this.ocupado = ocupado;
+    public void ocupar() {
+        this.disponible = false;
     }
-
     public double getPrecio() {
         return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
     }
 
     @Override
@@ -36,12 +30,14 @@ public abstract class Asiento implements Cloneable {
         try {
             return (Asiento) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new RuntimeException("Error al clonar el asiento", e);
+            e.printStackTrace();
+            return null;
         }
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " " + Id + " (Precio: $" + precio + ")" + (ocupado ? " (Ocupado)" : " (Disponible)");
+        return Id + (disponible ? " (Disponible)" : " (Ocupado)") + " - Precio: " + precio;
     }
 }
+

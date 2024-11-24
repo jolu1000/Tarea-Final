@@ -1,45 +1,37 @@
 package Logica;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Bus implements Cloneable {
     private String patente;
     private int capacidad;
-    private Asientos asientos;
+    private List<Asiento> asientos;
 
-    public Bus(String patente, int capacidad) {
-        this.patente = patente;
+    public Bus(int capacidad) {
+        this.patente = Patentes.generarPatenteAleatoria();
         this.capacidad = capacidad;
-        this.asientos = new Asientos();
+        this.asientos = new ArrayList<>();
     }
 
     public void inicializarAsientos(int estandar, int semiCama, int cama, int premium) {
         int contador = 1;
-
+        // Agregar asientos estándar
         for (int i = 0; i < estandar; i++) {
-            asientos.agregarAsiento(new AsientoEstandar("E" + contador++));
+            asientos.add(new AsientoEstandar("E" + contador++));
         }
+        // Agregar asientos semi cama
         for (int i = 0; i < semiCama; i++) {
-            asientos.agregarAsiento(new AsientoSemiCama("SC" + contador++));
+            asientos.add(new AsientoSemiCama("SC" + contador++));
         }
+        // Agregar asientos cama
         for (int i = 0; i < cama; i++) {
-            asientos.agregarAsiento(new AsientoCama("C" + contador++));
+            asientos.add(new AsientoCama("C" + contador++));
         }
+        // Agregar asientos premium
         for (int i = 0; i < premium; i++) {
-            asientos.agregarAsiento(new AsientoPremium("P" + contador++));
+            asientos.add(new AsientoPremium("P" + contador++));
         }
-    }
-
-    @Override
-    public Bus clone() {
-        try {
-            Bus clon = (Bus) super.clone();
-            clon.asientos = this.asientos.clone();
-            return clon;
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException("Error al clonar el bus", e);
-        }
-    }
-    public void setPatente(String patente) {
-        this.patente = patente;
     }
 
     public String getPatente() {
@@ -50,8 +42,42 @@ public abstract class Bus implements Cloneable {
         return capacidad;
     }
 
-    public Asientos getAsientos() {
+    public List<Asiento> getAsientos() {
         return asientos;
     }
+
+
+    public boolean ocuparAsiento(String identificador) {
+        for (Asiento asiento : asientos) {
+            if (asiento.getIdentificador().equals(identificador) && asiento.isDisponible()) {
+                asiento.ocupar();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Bus clone() {
+        try {
+            Bus clonedBus = (Bus) super.clone();
+            clonedBus.asientos = new ArrayList<>();
+            for (Asiento asiento : this.asientos) {
+                clonedBus.asientos.add((Asiento) asiento.clone());
+            }
+            clonedBus.patente = Patentes.generarPatenteAleatoria();
+            return clonedBus;
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Bus [Patente: " + patente + ", Capacidad: " + capacidad + "]";
+    }
 }
+
+
 

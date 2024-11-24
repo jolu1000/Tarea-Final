@@ -5,14 +5,11 @@ public class Patentes {
     public static String generarPatenteAleatoria() {
         Random random = new Random();
         StringBuilder patente = new StringBuilder();
-        // Generar 4 letras
         for (int i = 0; i < 4; i++) {
-            patente.append((char) (random.nextInt(26) + 'A')); // Letras de A a Z
+            patente.append((char) (random.nextInt(26) + 'A'));
         }
-        // Generar 2 números
-        patente.append("-");
         for (int i = 0; i < 2; i++) {
-            patente.append(random.nextInt(10)); // Números de 0 a 9
+            patente.append(random.nextInt(10));
         }
         return patente.toString();
     }
