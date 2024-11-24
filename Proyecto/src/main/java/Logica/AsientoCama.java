@@ -1,7 +1,7 @@
 package Logica;
 
-public class AsientoCama extends Asiento {
-    public AsientoCama(String codigo) {
-        super(codigo,22000);
+class AsientoCama extends Asiento {
+    public AsientoCama(String identificador) {
+        super(identificador, TipoAsiento.CAMA);
     }
 }

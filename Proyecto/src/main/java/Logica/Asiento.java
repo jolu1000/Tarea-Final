@@ -3,14 +3,15 @@ package Logica;
 public abstract class Asiento implements Cloneable {
     protected String Id;
     protected boolean disponible = true;
-    protected int precio;
+    private TipoAsiento tipoAsiento;
 
-    public Asiento(String Id , int precio) {
+    public Asiento(String Id, TipoAsiento tipoAsiento) {
         this.Id = Id;
-        this.precio = precio;
+        this.tipoAsiento = tipoAsiento;
+        this.disponible = true; // Los asientos están disponibles por defecto
     }
 
-    public String getIdentificador() {
+    public String getId() {
         return Id;
     }
 
@@ -18,11 +19,12 @@ public abstract class Asiento implements Cloneable {
         return disponible;
     }
 
+    public TipoAsiento getTipoAsiento() {
+        return tipoAsiento;
+    }
+
     public void ocupar() {
         this.disponible = false;
-    }
-    public double getPrecio() {
-        return precio;
     }
 
     @Override
@@ -37,7 +39,7 @@ public abstract class Asiento implements Cloneable {
 
     @Override
     public String toString() {
-        return Id + (disponible ? " (Disponible)" : " (Ocupado)") + " - Precio: " + precio;
+        return "Asiento " + Id + " (" + tipoAsiento + ") - " + (disponible ? "Disponible" : "Ocupado");
     }
 }
 
