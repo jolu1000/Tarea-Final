@@ -4,11 +4,12 @@ public abstract class Asiento implements Cloneable {
     protected String Id;
     protected boolean disponible = true;
     private TipoAsiento tipoAsiento;
+    private Cliente cliente;
 
     public Asiento(String Id, TipoAsiento tipoAsiento) {
         this.Id = Id;
         this.tipoAsiento = tipoAsiento;
-        this.disponible = true; // Los asientos están disponibles por defecto
+        this.disponible = true;
     }
 
     public String getId() {

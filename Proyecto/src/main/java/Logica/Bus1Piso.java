@@ -5,6 +5,10 @@ public class Bus1Piso extends Bus {
         super(capacidad);
         inicializarAsientos(estandar, semiCama, cama, premium);
     }
+    @Override
+    public Bus1Piso clone() {
+        return (Bus1Piso) super.clone();
+    }
 }
 
 
