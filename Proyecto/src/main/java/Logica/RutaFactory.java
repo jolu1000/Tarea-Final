@@ -1,6 +1,7 @@
 package Logica;
 
 import java.awt.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.List;
@@ -10,6 +11,7 @@ public class RutaFactory {
         this.buses=buses;
     }
     int crearRutas(){
+
 
     }
     int crearPrecioViaje(Ciudades origen, Ciudades destino){
