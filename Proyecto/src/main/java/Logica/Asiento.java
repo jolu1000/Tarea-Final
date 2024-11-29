@@ -9,7 +9,6 @@ public abstract class Asiento implements Cloneable {
     public Asiento(String Id, TipoAsiento tipoAsiento) {
         this.Id = Id;
         this.tipoAsiento = tipoAsiento;
-        this.disponible = true;
     }
 
     public String getId() {
@@ -26,6 +25,15 @@ public abstract class Asiento implements Cloneable {
 
     public void ocupar() {
         this.disponible = false;
+    }
+    public Cliente getCliente(){
+        return cliente;
+
+    }
+
+    public void setCliente(Cliente cliente){
+        this.cliente=cliente;
+        this.ocupar();
     }
 
     @Override

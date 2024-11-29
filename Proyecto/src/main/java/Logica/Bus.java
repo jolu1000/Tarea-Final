@@ -8,7 +8,7 @@ public abstract class Bus implements Cloneable {
     private int capacidad;
     private List<Asiento> asientos;
 
-    // Constructor que solo recibe la capacidad
+
     public Bus(int capacidad) {
         this.patente = Patentes.generarPatenteAleatoria();
         this.capacidad = capacidad;
@@ -47,15 +47,26 @@ public abstract class Bus implements Cloneable {
         return asientos;
     }
 
-    // Método para ocupar un asiento
-    public boolean ocuparAsiento(String identificador) {
+
+    public boolean ocuparAsiento(String identificador,Cliente cliente) {
         for (Asiento asiento : asientos) {
             if (asiento.getId().equals(identificador) && asiento.isDisponible()) {
+                asiento.setCliente(cliente);
                 asiento.ocupar();
                 return true;
             }
         }
         return false;
+    }
+
+    public void mostrarAsientosConClientes() {
+        for (Asiento asiento : asientos) {
+            if (!asiento.isDisponible()) {
+                System.out.println(asiento + " - Cliente: " + asiento.getCliente());
+            } else {
+                System.out.println(asiento + " - Disponible");
+            }
+        }
     }
 
     @Override

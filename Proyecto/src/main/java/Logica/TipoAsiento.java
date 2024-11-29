@@ -1,10 +1,10 @@
 package Logica;
 
 public enum TipoAsiento {
-    ESTANDAR(10000),
-    SEMI_CAMA(15000),
-    CAMA(22000),
-    PREMIUM(30000);
+    ESTANDAR(0),
+    SEMI_CAMA(3000),
+    CAMA(7000),
+    PREMIUM(10000);
 
     private final int precio;
 

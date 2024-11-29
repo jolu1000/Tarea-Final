@@ -4,14 +4,13 @@ import java.time.LocalTime;
 import java.util.Date;
 
 public class Ruta {
-    private Ciudades ciudadOrigen;  // Enum para las ciudades
-    private Ciudades ciudadDestino; // Enum para las ciudades
-    private Date fecha;             // Fecha de la ruta
-    private LocalTime hora;         // Hora de la salida
-    private int precio;             // Precio del viaje
-    private Bus bus;                // Bus asignado a la ruta
+    private Ciudades ciudadOrigen;
+    private Ciudades ciudadDestino;
+    private Date fecha;
+    private LocalTime hora;
+    private int precio;
+    private Bus bus;
 
-    // Constructor
     public Ruta(Ciudades ciudadOrigen, Ciudades ciudadDestino, Date fecha, LocalTime hora, int precio, Bus bus) {
         this.ciudadOrigen = ciudadOrigen;
         this.ciudadDestino = ciudadDestino;
@@ -21,7 +20,6 @@ public class Ruta {
         this.bus = bus;
     }
 
-    // Getters y Setters
     public Ciudades getCiudadOrigen() {
         return ciudadOrigen;
     }
@@ -70,7 +68,6 @@ public class Ruta {
         this.bus = bus;
     }
 
-    // Método toString para imprimir detalles de la ruta
     @Override
     public String toString() {
         return "Ruta desde " + ciudadOrigen +
