@@ -1,5 +1,6 @@
 package Logica;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -70,11 +71,14 @@ public class Ruta {
 
     @Override
     public String toString() {
-        return "Ruta desde " + ciudadOrigen +
-                " hasta " + ciudadDestino +
-                " el " + fecha +
-                " a las " + hora +
-                ", precio: $" + precio +
-                ", Bus: " + bus.toString();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Formato de fecha
+        String fechaFormateada = dateFormat.format(fecha);
+
+        String horaFormateada = hora.toString(); // Hora en formato HH:mm
+
+        return "Ruta: " + ciudadOrigen.getNombre() + " -> " + ciudadDestino.getNombre() +
+                " | Fecha: " + fechaFormateada +
+                " | Hora: " + horaFormateada +
+                " | Bus: " + bus.getPatente();
     }
 }
