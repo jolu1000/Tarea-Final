@@ -28,7 +28,10 @@ public class AsientosPanel extends JPanel {
             }
 
             JButton asientoButton = new JButton(asiento.getId());
-            asientoButton.setBackground(asiento.isDisponible() ? Color.GREEN : Color.RED);
+            // Usa el color basado en el tipo de asiento
+            asientoButton.setBackground(asiento.isDisponible()
+                    ? AsientoColor.getColorPorTipo(asiento.getTipoAsiento())
+                    : Color.RED);
             asientoButton.setEnabled(asiento.isDisponible());
 
             asientoButton.addActionListener(event -> mostrarDetallesAsiento(asiento, rutaSeleccionada));

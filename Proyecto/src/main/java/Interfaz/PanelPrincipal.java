@@ -21,10 +21,14 @@ public class PanelPrincipal extends JFrame {
         setLayout(new BorderLayout());
 
         // Crear autobuses y rutas
-        Bus bus1 = new Bus1Piso(40, 10, 15, 10, 5);
-        Bus bus2 = new Bus2Pisos(50, 20, 10, 15, 5);
+        Bus bus1 = new Bus1Piso(35, 13, 12, 10, 5);
+        Bus bus2 = new Bus2Pisos(50, 20, 15, 10, 5);
         rutaFactory = new RutaFactory(List.of(bus1, bus2));
         List<Ruta> rutas = rutaFactory.crearRutas(Ciudades.CONCEPCION, Ciudades.SANTIAGO);
+        rutas.addAll(rutaFactory.crearRutas(Ciudades.CONCEPCION, Ciudades.SANTIAGO));
+        rutas.addAll(rutaFactory.crearRutas(Ciudades.SANTIAGO, Ciudades.LOS_ANGELES));
+        rutas.addAll(rutaFactory.crearRutas(Ciudades.CHILLAN, Ciudades.LOS_ANGELES));
+        rutas.addAll(rutaFactory.crearRutas(Ciudades.CHILLAN, Ciudades.CONCEPCION));
 
 
         // Panel de selección de ruta
@@ -41,6 +45,12 @@ public class PanelPrincipal extends JFrame {
 
         setVisible(true);
     }
+    public RutaPanel getPanelSeleccionRuta() {
+        return panelSeleccionRuta;
+    }
+    public AsientosPanel getAsientosPanel() {
+        return panelAsientos;
+    }
 
     private void mostrarDistribucionAsientos(ActionEvent e) {
         // Obtener la ruta seleccionada
@@ -48,11 +58,5 @@ public class PanelPrincipal extends JFrame {
         if (rutaSeleccionada != null) {
             panelAsientos.mostrarDistribucionAsientos(rutaSeleccionada);
         }
-    }
-
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(InterfazDistribucionBus::new);
     }
 }

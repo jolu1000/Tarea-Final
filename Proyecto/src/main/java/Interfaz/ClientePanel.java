@@ -41,13 +41,16 @@ public class ClientePanel extends JPanel {
             String email = emailField.getText();
 
             if (!nombre.isBlank() && !apellido.isBlank() && !rut.isBlank() && !email.isBlank()) {
-                // Obtener la ruta seleccionada desde el panel superior
-                Ruta rutaSeleccionada = ((RutaPanel) ((PanelPrincipal) getTopLevelAncestor()).getComponent(0)).getRutaSeleccionada();
+                // Obtener la ruta seleccionada desde el panel principal
+                PanelPrincipal panelPrincipal = (PanelPrincipal) getTopLevelAncestor();
+                Ruta rutaSeleccionada = panelPrincipal.getPanelSeleccionRuta().getRutaSeleccionada();
+
                 Cliente cliente = new Cliente(nombre, apellido, rut, email);
                 String asientoId = JOptionPane.showInputDialog(this, "Ingrese el ID del asiento:");
 
                 if (rutaSeleccionada.getBus().ocuparAsiento(asientoId, cliente)) {
                     JOptionPane.showMessageDialog(this, "Asiento reservado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    panelPrincipal.getAsientosPanel().mostrarDistribucionAsientos(rutaSeleccionada);
                 } else {
                     JOptionPane.showMessageDialog(this, "El asiento no está disponible.", "Error", JOptionPane.ERROR_MESSAGE);
                 }

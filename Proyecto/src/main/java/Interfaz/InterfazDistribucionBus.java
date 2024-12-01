@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-public class InterfazDistribucionBus extends JFrame {
+/*public class InterfazDistribucionBus extends JFrame {
 
     private JComboBox<Ruta> rutasComboBox;
     private JPanel asientosPanel;
@@ -151,5 +151,5 @@ public class InterfazDistribucionBus extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(InterfazDistribucionBus::new);
     }
-}
+}*/
 
