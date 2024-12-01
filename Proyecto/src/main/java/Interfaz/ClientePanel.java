@@ -7,10 +7,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class ClientePanel extends JPanel {
+    private PanelPrincipal panelPrincipal;
     private JTextField nombreField, apellidoField, rutField, emailField;
     private JButton reservarButton;
 
-    public ClientePanel() {
+    public ClientePanel(PanelPrincipal panelPrincipal) {
+        this.panelPrincipal = panelPrincipal;
         setLayout(new GridLayout(5, 2, 10, 10));
 
         nombreField = new JTextField();
@@ -41,8 +43,6 @@ public class ClientePanel extends JPanel {
             String email = emailField.getText();
 
             if (!nombre.isBlank() && !apellido.isBlank() && !rut.isBlank() && !email.isBlank()) {
-                // Obtener la ruta seleccionada desde el panel principal
-                PanelPrincipal panelPrincipal = (PanelPrincipal) getTopLevelAncestor();
                 Ruta rutaSeleccionada = panelPrincipal.getPanelSeleccionRuta().getRutaSeleccionada();
 
                 Cliente cliente = new Cliente(nombre, apellido, rut, email);

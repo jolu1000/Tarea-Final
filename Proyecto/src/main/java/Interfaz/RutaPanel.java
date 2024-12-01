@@ -14,14 +14,11 @@ public class RutaPanel extends JPanel {
     public RutaPanel(List<Ruta> rutas, ActionListener actionListener) {
         setLayout(new FlowLayout());
 
-        // Crear JComboBox con las rutas disponibles
         rutasComboBox = new JComboBox<>(rutas.toArray(new Ruta[0]));
 
-        // Crear el botón para ver los asientos
         JButton verAsientosButton = new JButton("Ver Asientos");
         verAsientosButton.addActionListener(actionListener);
 
-        // Añadir componentes al panel
         add(new JLabel("Seleccionar Ruta:"));
         add(rutasComboBox);
         add(verAsientosButton);

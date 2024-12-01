@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-public class PanelPrincipal extends JFrame {
+public class PanelPrincipal extends JPanel {
 
     private RutaFactory rutaFactory;
     private RutaPanel panelSeleccionRuta;
@@ -15,9 +15,6 @@ public class PanelPrincipal extends JFrame {
     private ClientePanel panelReservaCliente;
 
     public PanelPrincipal() {
-        setTitle("BUSES JBG");
-        setSize(800, 600);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // Crear autobuses y rutas
@@ -30,33 +27,29 @@ public class PanelPrincipal extends JFrame {
         rutas.addAll(rutaFactory.crearRutas(Ciudades.CHILLAN, Ciudades.LOS_ANGELES));
         rutas.addAll(rutaFactory.crearRutas(Ciudades.CHILLAN, Ciudades.CONCEPCION));
 
-
-        // Panel de selección de ruta
         panelSeleccionRuta = new RutaPanel(rutas, this::mostrarDistribucionAsientos);
         add(panelSeleccionRuta, BorderLayout.NORTH);
 
-        // Panel de asientos
         panelAsientos = new AsientosPanel();
         add(new JScrollPane(panelAsientos), BorderLayout.CENTER);
 
-        // Panel de reserva del cliente
-        panelReservaCliente = new ClientePanel();
+        panelReservaCliente = new ClientePanel(this);
         add(panelReservaCliente, BorderLayout.SOUTH);
-
-        setVisible(true);
     }
+
     public RutaPanel getPanelSeleccionRuta() {
         return panelSeleccionRuta;
     }
+
     public AsientosPanel getAsientosPanel() {
         return panelAsientos;
     }
 
     private void mostrarDistribucionAsientos(ActionEvent e) {
-        // Obtener la ruta seleccionada
         Ruta rutaSeleccionada = panelSeleccionRuta.getRutaSeleccionada();
         if (rutaSeleccionada != null) {
             panelAsientos.mostrarDistribucionAsientos(rutaSeleccionada);
         }
     }
 }
+
