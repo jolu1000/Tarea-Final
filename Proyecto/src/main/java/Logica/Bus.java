@@ -89,7 +89,29 @@ public abstract class Bus implements Cloneable {
     public String toString() {
         return "Bus [Patente: " + patente + ", Capacidad: " + capacidad + "]";
     }
+
+    public void addAsiento(Asiento asiento) {
+        if (asiento == null) {
+            throw new IllegalArgumentException("El asiento no puede ser nulo.");
+        }
+
+        if (asientos.size() >= capacidad) {
+            throw new IllegalStateException("No se pueden agregar más asientos. Se ha alcanzado la capacidad máxima.");
+        }
+
+        // Verificar si el ID del asiento ya existe
+        for (Asiento a : asientos) {
+            if (a.getId().equals(asiento.getId())) {
+                throw new IllegalArgumentException("Ya existe un asiento con el mismo ID: " + asiento.getId());
+            }
+        }
+
+        // Agregar el asiento a la lista
+        asientos.add(asiento);
+    }
+
 }
+
 
 
 
