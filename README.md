@@ -26,6 +26,12 @@ y clonarlos es más eficiente que recrearlos manualmente.
     - ***Ventaja*** : Ahorramos tiempo y recursos al no reconstruir manualmente los buses para cada ruta.
 
 ### Interfaz 
+![Imagen1](Recursos/I1.jpeg)
+![Imagen2](Recursos/I2.jpeg)
+![Imagen3](Recursos/I3.jpeg)
+![Imagen4](Recursos/I4.jpeg)
+![Imagen5](Recursos/I5.jpeg)
+![Imagen6](Recursos/I6.jpeg)
 
 ### Decisiones tomadas durante el proyecto
 - **Uso del Patrón Factory para la creación de rutas:** Se decidió implementar el patrón Factory en la clase
