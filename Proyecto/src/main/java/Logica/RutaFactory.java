@@ -27,32 +27,33 @@ public class RutaFactory {
         LocalTime end = LocalTime.of(22, 0); // Hora de fin
         int busIndex = 0;
 
-// Obtener la fecha actual
-        LocalDate localDate = LocalDate.now();
-        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        LocalDate[] fechas = {LocalDate.now(), LocalDate.now().plusDays(1), LocalDate.now().plusDays(2)};
 
-        LocalTime currentStart = LocalTime.now().truncatedTo(ChronoUnit.HOURS);
-        if (currentStart.isBefore(start)) {
-            currentStart = start; // No iniciar antes de las 8 AM
-        }
+        for (int i = 0; i < fechas.length; i++) {
+            LocalDate localDate = fechas[i];
+            Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        LocalTime current = currentStart;
-        while (!current.isAfter(end)) {
-            Bus busOriginal = buses.get(busIndex);
-            Bus busClonado = busOriginal.clone();
-            int precio = PrecioTotal(ciudadOrigen, ciudadDestino, busClonado);
-            rutas.add(new Ruta(ciudadOrigen, ciudadDestino, date, current, precio, busClonado));
+            LocalTime currentStart = (i == 0 && LocalTime.now().isAfter(start)) ? LocalTime.now() : start;
+            currentStart = currentStart.truncatedTo(ChronoUnit.MINUTES);
 
-            // Alternar el índice de bus
-            busIndex = (busIndex + 1) % buses.size();
+            LocalTime current = currentStart;
+            while (!current.isAfter(end)) {
 
-            // Incrementar la hora en una hora
-            current = current.plusHours(1);
+                Bus bus1Piso = buses.get(0);
+                Bus bus1PisoClonado = bus1Piso.clone();
+                int precio1Piso = PrecioTotal(ciudadOrigen, ciudadDestino, bus1PisoClonado);
+                rutas.add(new Ruta(ciudadOrigen, ciudadDestino, date, current, precio1Piso, bus1PisoClonado));
+
+                Bus bus2Pisos = buses.get(1);
+                Bus bus2PisosClonado = bus2Pisos.clone();
+                int precio2Pisos = PrecioTotal(ciudadOrigen, ciudadDestino, bus2PisosClonado);
+                rutas.add(new Ruta(ciudadOrigen, ciudadDestino, date, current, precio2Pisos, bus2PisosClonado));
+
+                current = current.plusHours(1);
+            }
         }
 
         return rutas;
-
-
     }
     public int crearPrecioViaje(Ciudades origen, Ciudades destino){
         if (origen == Ciudades.LOS_ANGELES && destino == Ciudades.CONCEPCION || origen== Ciudades.CONCEPCION && destino== Ciudades.LOS_ANGELES) {
