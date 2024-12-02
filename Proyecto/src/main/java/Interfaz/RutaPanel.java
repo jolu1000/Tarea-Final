@@ -24,7 +24,6 @@ public class RutaPanel extends JPanel {
         add(verAsientosButton);
     }
 
-    // Método para obtener la ruta seleccionada
     public Ruta getRutaSeleccionada() {
         return (Ruta) rutasComboBox.getSelectedItem();
     }

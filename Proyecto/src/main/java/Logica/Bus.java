@@ -48,15 +48,15 @@ public abstract class Bus implements Cloneable {
     }
 
 
-    public boolean ocuparAsiento(String identificador,Cliente cliente) {
+    public Asiento ocuparAsiento(String identificador, Cliente cliente) {
         for (Asiento asiento : asientos) {
             if (asiento.getId().equals(identificador) && asiento.isDisponible()) {
                 asiento.setCliente(cliente);
                 asiento.ocupar();
-                return true;
+                return asiento;
             }
         }
-        return false;
+        return null;
     }
 
     public void mostrarAsientosConClientes() {
@@ -67,6 +67,16 @@ public abstract class Bus implements Cloneable {
                 System.out.println(asiento + " - Disponible");
             }
         }
+    }
+
+    public List<Asiento> getAsientosOcupados() {
+        List<Asiento> asientosOcupados = new ArrayList<>();
+        for (Asiento asiento : asientos) {
+            if (!asiento.isDisponible()) { // Si el asiento está ocupado
+                asientosOcupados.add(asiento);
+            }
+        }
+        return asientosOcupados;
     }
 
     @Override
@@ -99,14 +109,12 @@ public abstract class Bus implements Cloneable {
             throw new IllegalStateException("No se pueden agregar más asientos. Se ha alcanzado la capacidad máxima.");
         }
 
-        // Verificar si el ID del asiento ya existe
         for (Asiento a : asientos) {
             if (a.getId().equals(asiento.getId())) {
                 throw new IllegalArgumentException("Ya existe un asiento con el mismo ID: " + asiento.getId());
             }
         }
 
-        // Agregar el asiento a la lista
         asientos.add(asiento);
     }
 

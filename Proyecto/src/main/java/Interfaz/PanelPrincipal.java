@@ -13,11 +13,11 @@ public class PanelPrincipal extends JPanel {
     private RutaPanel panelSeleccionRuta;
     private AsientosPanel panelAsientos;
     private ClientePanel panelReservaCliente;
+    private Cliente clienteActual;
 
     public PanelPrincipal() {
         setLayout(new BorderLayout());
 
-        // Crear autobuses y rutas
         Bus bus1 = new Bus1Piso(35, 13, 12, 10, 5);
         Bus bus2 = new Bus2Pisos(50, 20, 15, 10, 5);
         rutaFactory = new RutaFactory(List.of(bus1, bus2));
@@ -43,6 +43,18 @@ public class PanelPrincipal extends JPanel {
 
     public AsientosPanel getAsientosPanel() {
         return panelAsientos;
+    }
+
+    public Cliente getClienteActual() {
+        return clienteActual;
+    }
+
+    public void setClienteActual(Cliente cliente) {
+        this.clienteActual = cliente;
+    }
+
+    public void limpiarClienteActual() {
+        this.clienteActual = null;
     }
 
     private void mostrarDistribucionAsientos(ActionEvent e) {
