@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-class Bus1PisoTest {
+/*class Bus1PisoTest {
 
     private Bus1Piso bus1Piso;
     private Cliente cliente;

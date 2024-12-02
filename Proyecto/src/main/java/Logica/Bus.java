@@ -48,15 +48,15 @@ public abstract class Bus implements Cloneable {
     }
 
 
-    public boolean ocuparAsiento(String identificador,Cliente cliente) {
+    public Asiento ocuparAsiento(String identificador, Cliente cliente) {
         for (Asiento asiento : asientos) {
             if (asiento.getId().equals(identificador) && asiento.isDisponible()) {
                 asiento.setCliente(cliente);
                 asiento.ocupar();
-                return true;
+                return asiento;
             }
         }
-        return false;
+        return null;
     }
 
     public void mostrarAsientosConClientes() {

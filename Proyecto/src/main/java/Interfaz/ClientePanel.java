@@ -63,12 +63,21 @@ public class ClientePanel extends JPanel {
                     return;
                 }
 
-                clienteActual = new Cliente(nombre, apellido, rut, email);
+                if (clienteActual == null) {
+                    clienteActual = new Cliente(nombre, apellido, rut, email); // Crear cliente solo si no hay uno
+                } else {
+                    clienteActual.setNombre(nombre); // Si ya existe, actualiza los datos
+                    clienteActual.setApellido(apellido);
+                    clienteActual.setRut(rut);
+                    clienteActual.setEmail(email);
+                }
 
                 Ruta rutaSeleccionada = panelPrincipal.getPanelSeleccionRuta().getRutaSeleccionada();
                 String asientoId = JOptionPane.showInputDialog(this, "Ingrese el ID del asiento:");
 
-                if (rutaSeleccionada.getBus().ocuparAsiento(asientoId, clienteActual)) {
+                Asiento asiento = rutaSeleccionada.getBus().ocuparAsiento(asientoId, clienteActual);
+                if (asiento != null) {
+                    clienteActual.agregarAsientoReservado(asiento);  // Agregar el asiento a la lista del cliente
                     JOptionPane.showMessageDialog(this, "Asiento reservado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     panelPrincipal.getAsientosPanel().mostrarDistribucionAsientos(rutaSeleccionada);
                 } else {
@@ -89,14 +98,14 @@ public class ClientePanel extends JPanel {
             return;
         }
 
-        List<Asiento> asientosComprados = rutaSeleccionada.getBus().getAsientosOcupados();
-        if (asientosComprados.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No hay asientos comprados.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        if (clienteActual == null) {
+            JOptionPane.showMessageDialog(this, "No hay un cliente asociado a la reserva.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (clienteActual == null) {
-            JOptionPane.showMessageDialog(this, "No hay un cliente asociado a la reserva.", "Error", JOptionPane.ERROR_MESSAGE);
+        List<Asiento> asientosComprados = clienteActual.getAsientosReservados();  // Obtener todos los asientos reservados por el cliente
+        if (asientosComprados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay asientos comprados.", "Información", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -108,14 +117,12 @@ public class ClientePanel extends JPanel {
         total += precioRuta;
 
         for (Asiento asiento : asientosComprados) {
-            if (asiento.getCliente().equals(clienteActual)) {
-                detalles.append("Asiento: ").append(asiento.getId())
-                        .append(", Tipo: ").append(asiento.getTipoAsiento())
-                        .append(", Bus (Patente): ").append(rutaSeleccionada.getBus().getPatente())
-                        .append(", Precio Asiento: $").append(asiento.getPrecio())
-                        .append("\n");
-                total += asiento.getPrecio();
-            }
+            detalles.append("Asiento: ").append(asiento.getId())
+                    .append(", Tipo: ").append(asiento.getTipoAsiento())
+                    .append(", Bus (Patente): ").append(rutaSeleccionada.getBus().getPatente())
+                    .append(", Precio Asiento: $").append(asiento.getPrecio())
+                    .append("\n");
+            total += asiento.getPrecio();
         }
 
         detalles.append("\nCliente:\n")
