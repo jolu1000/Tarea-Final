@@ -42,6 +42,7 @@ public class AsientoTest {
         assertEquals(asiento.getId(), clonedAsiento.getId(), "El ID del asiento clonado debe coincidir con el original.");
         assertEquals(asiento.isDisponible(), clonedAsiento.isDisponible(), "El estado de disponibilidad debe ser el mismo.");
     }
+    
     @Test
     public void testSetClienteConNulo() {
         asiento.setCliente(null);
