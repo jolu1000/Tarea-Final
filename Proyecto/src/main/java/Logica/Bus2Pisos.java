@@ -6,6 +6,9 @@ public class Bus2Pisos extends Bus {
         super(capacidad);
         inicializarAsientos(estandar, semiCama, cama, premium);
     }
+    public boolean pisos(){
+        return true;
+    }
     @Override
     public Bus2Pisos clone() {
         return (Bus2Pisos) super.clone();

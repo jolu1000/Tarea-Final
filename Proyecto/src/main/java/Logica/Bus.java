@@ -117,6 +117,7 @@ public abstract class Bus implements Cloneable {
 
         asientos.add(asiento);
     }
+    public abstract boolean pisos();
 
 }
 

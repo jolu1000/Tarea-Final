@@ -75,10 +75,18 @@ public class Ruta {
         String fechaFormateada = dateFormat.format(fecha);
 
         String horaFormateada = hora.toString(); // Hora en formato HH:mm
-
-        return "Ruta: " + ciudadOrigen.getNombre() + " -> " + ciudadDestino.getNombre() +
-                " | Fecha: " + fechaFormateada +
-                " | Hora: " + horaFormateada +
-                " | Bus: " + bus.getPatente();
+        if(bus.pisos() == true){
+            return "Ruta: " + ciudadOrigen.getNombre() + " -> " + ciudadDestino.getNombre() +
+                    " |Pisos: 2"+
+                    " | Fecha: " + fechaFormateada +
+                    " | Hora: " + horaFormateada +
+                    " | Bus: " + bus.getPatente();
+        }else {
+            return "Ruta: " + ciudadOrigen.getNombre() + " -> " + ciudadDestino.getNombre() +
+                    " |Pisos: 1"+
+                    " | Fecha: " + fechaFormateada +
+                    " | Hora: " + horaFormateada +
+                    " | Bus: " + bus.getPatente();
+        }
     }
 }
