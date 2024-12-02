@@ -9,7 +9,7 @@
 ![Diagrama UML](Recursos/uml.png)
 
 ### Diagrama de casos de uso
-![Diagrama de Casos de Uso](Recursos/casos.png)  
+![Diagrama de Casos de Uso](Recursos/casos.jpg)  
 ## Patrones utilizados 
 - **Factory**: Este patron se utilizó para 
 crear rutas de manera flexible y centralizada en la clase RutaFactory. 
