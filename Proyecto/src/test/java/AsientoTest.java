@@ -13,8 +13,7 @@ public class AsientoTest {
     @BeforeEach
     public void setUp() {
         cliente = new Cliente("Juan", "Pérez", "12345678-9", "juan@mail.com");
-        asiento = new Asiento("A1", TipoAsiento.ESTANDAR) {};  // Implementación anónima para probar la clase abstracta
-    }
+        asiento = new Asiento("A1", TipoAsiento.ESTANDAR) {};}
 
     @Test
     public void testAsientoInicialDisponible() {
@@ -42,6 +41,7 @@ public class AsientoTest {
         assertEquals(asiento.getId(), clonedAsiento.getId(), "El ID del asiento clonado debe coincidir con el original.");
         assertEquals(asiento.isDisponible(), clonedAsiento.isDisponible(), "El estado de disponibilidad debe ser el mismo.");
     }
+
     @Test
     public void testSetClienteConNulo() {
         asiento.setCliente(null);
@@ -63,4 +63,13 @@ public class AsientoTest {
         asiento.ocupar();
         assertFalse(asiento.isDisponible(), "El asiento debe estar ocupado incluso sin asignar un cliente.");
     }
+    @Test
+    public void testClonePropiedades() {
+        asiento.setCliente(cliente);  // Asignamos un cliente al asiento
+        Asiento clonedAsiento = asiento.clone();
+        assertEquals(asiento.getId(), clonedAsiento.getId(), "El ID del asiento clonado debe coincidir con el original.");
+        assertEquals(asiento.isDisponible(), clonedAsiento.isDisponible(), "El estado de disponibilidad debe ser el mismo.");
+        assertEquals(asiento.getCliente(), clonedAsiento.getCliente(), "El cliente del asiento clonado debe ser el mismo.");
+    }
+
 }
