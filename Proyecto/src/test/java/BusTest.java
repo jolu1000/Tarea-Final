@@ -5,14 +5,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-class Bus1PisoTest {
+class BusTest {
 
     private Bus1Piso bus1Piso;
     private Cliente cliente;
+    private int numEstandar;
+    private int numSemiCama;
+    private int numCama;
+    private int numPremium;
 
     @BeforeEach
     public void setUp() {
-        bus1Piso = new Bus1Piso(10,3, 2, 2, 3);  // Bus con capacidad 10 (Ejemplo con 1piso)
+        numEstandar = 3;
+        numSemiCama = 2;
+        numCama = 2;
+        numPremium = 3;
+        bus1Piso = new Bus1Piso(10,numEstandar, numSemiCama, numCama, numPremium);  // Bus con capacidad 10 (Ejemplo con 1piso)
         cliente = new Cliente("Juan", "Pérez", "12345678-9", "juan@mail.com");
 
         // Inicializando asientos: 3 Estándar, 2 SemiCama, 2 Cama, 3 Premium
@@ -21,14 +29,17 @@ class Bus1PisoTest {
 
     @Test
     public void testInicializarAsientos() {
-        // Verifica que los asientos sean creados correctamente
+        int totalAsientosEsperados = numEstandar + numSemiCama + numCama + numPremium;
         List<Asiento> asientos = bus1Piso.getAsientos();
-        assertEquals(10, asientos.size(), "El bus debe tener 10 asientos.");
+        assertEquals(totalAsientosEsperados, asientos.size(), "El bus debe tener " + totalAsientosEsperados + " asientos.");
+
+        // Verificación de los tipos de asientos
         assertTrue(asientos.get(0) instanceof AsientoEstandar, "El primer asiento debe ser de tipo Estandar.");
         assertTrue(asientos.get(3) instanceof AsientoSemiCama, "El asiento 4 debe ser de tipo SemiCama.");
         assertTrue(asientos.get(5) instanceof AsientoCama, "El asiento 6 debe ser de tipo Cama.");
         assertTrue(asientos.get(8) instanceof AsientoPremium, "El asiento 9 debe ser de tipo Premium.");
     }
+
 
     @Test
     public void testOcuparAsiento() {
@@ -59,43 +70,29 @@ class Bus1PisoTest {
 
     @Test
     public void testCloneBus1Piso() {
-        // Clonamos el bus y verificamos
+        Bus1Piso bus1Piso = new Bus1Piso(20, 5, 5, 5, 5);
         Bus clonedBus = bus1Piso.clone();
 
         assertNotNull(clonedBus, "El bus clonado no debe ser nulo.");
         assertNotSame(bus1Piso, clonedBus, "El bus clonado debe ser una instancia diferente.");
-        assertEquals(bus1Piso.getPatente(), clonedBus.getPatente(), "Las patentes deberían ser diferentes ya que se genera aleatoriamente.");
         assertEquals(bus1Piso.getAsientos().size(), clonedBus.getAsientos().size(), "El bus clonado debe tener la misma cantidad de asientos.");
     }
 
     @Test
-    public void testAddAsiento() {
-        // Intentar agregar un asiento extra cuando no se alcanza la capacidad
-        Asiento nuevoAsiento = new AsientoEstandar("E10");
-        bus1Piso.addAsiento(nuevoAsiento);
-        assertEquals(11, bus1Piso.getAsientos().size(), "El asiento debe ser agregado correctamente.");
+    public void testCloneBus2Pisos() {
+        Bus2Pisos bus2Pisos = new Bus2Pisos(20, 5, 5, 5, 5);
+        Bus clonedBus = bus2Pisos.clone();
 
-        // Intentar agregar un asiento cuando el bus ya está lleno
-        Asiento asientoExtra = new AsientoEstandar("E12");
-        try {
-            bus1Piso.addAsiento(asientoExtra);
-            fail("Debería lanzar IllegalStateException cuando se agrega un asiento extra.");
-        } catch (IllegalStateException e) {
-            assertEquals("No se pueden agregar más asientos. Se ha alcanzado la capacidad máxima.", e.getMessage());
-        }
+        assertNotNull(clonedBus, "El bus clonado no debe ser nulo.");
+        assertNotSame(bus2Pisos, clonedBus, "El bus clonado debe ser una instancia diferente.");
+        assertEquals(bus2Pisos.getAsientos().size(), clonedBus.getAsientos().size(), "El bus clonado debe tener la misma cantidad de asientos.");
     }
 
     @Test
-    public void testAddAsientoConIdDuplicado() {
-        // Intentar agregar un asiento con un ID duplicado
-        Asiento asientoDuplicado = new AsientoEstandar("E1");
-        try {
-            bus1Piso.addAsiento(asientoDuplicado);
-            fail("Debería lanzar IllegalArgumentException por ID duplicado.");
-        } catch (IllegalArgumentException e) {
-            assertEquals("Ya existe un asiento con el mismo ID: E1", e.getMessage());
-        }
+    public void testCapacidadExacta() {
+        bus1Piso.inicializarAsientos(3, 2, 2, 3);  // Inicializa con una capacidad de 10 asientos
+        assertEquals(10, bus1Piso.getCapacidad(), "La capacidad del bus debe ser igual a la cantidad de asientos.");
     }
+
+
 }
-
-

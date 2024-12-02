@@ -22,6 +22,7 @@ class ClienteTest {
         assertTrue(cliente1.equals(cliente2), "Los clientes con los mismos datos deben ser iguales.");
     }
 
+
     @Test
     public void testEqualsConClienteDiferente() {
         Cliente cliente1 = new Cliente("Ana", "Lopez", "98765432-1", "ana@mail.com");
