@@ -31,9 +31,17 @@ public abstract class Asiento implements Cloneable {
 
     }
 
-    public void setCliente(Cliente cliente){
-        this.cliente=cliente;
-        this.ocupar();
+    public int getPrecio() {
+        return tipoAsiento.getPrecio();
+    }
+
+    public void setCliente(Cliente cliente) {
+        if (this.disponible) {
+            this.cliente = cliente;
+            this.ocupar();
+        } else {
+            throw new IllegalStateException("Este asiento ya está ocupado.");
+        }
     }
 
     @Override

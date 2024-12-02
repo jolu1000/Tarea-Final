@@ -18,13 +18,13 @@ public class AsientosPanel extends JPanel {
 
     public void mostrarDistribucionAsientos(Ruta rutaSeleccionada) {
         asientosPanel.removeAll();
-        asientosPanel.setLayout(new GridLayout(0, 5, 10, 10)); // 5 columnas: 2 asientos - pasillo - 2 asientos
+        asientosPanel.setLayout(new GridLayout(0, 5, 10, 10));
 
         for (int i = 0; i < rutaSeleccionada.getBus().getAsientos().size(); i++) {
             Asiento asiento = rutaSeleccionada.getBus().getAsientos().get(i);
 
-            if (i % 4 == 2) { // Pasillo central
-                asientosPanel.add(new JLabel()); // Espacio vacío
+            if (i % 4 == 2) {
+                asientosPanel.add(new JLabel());
             }
 
             JButton asientoButton = new JButton(asiento.getId());
