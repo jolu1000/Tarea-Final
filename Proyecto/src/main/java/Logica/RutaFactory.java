@@ -1,6 +1,4 @@
 package Logica;
-
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -8,12 +6,35 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * Clase que se encarga de la creación de rutas entre ciudades utilizando buses disponibles.
+ * Las rutas se generan para diferentes fechas y horas, y se calculan los precios según el origen,
+ * destino y tipo de bus.
+ *
+ * @author Gabriela
+ * @author Joaquin
+ * @author Benjamin
+ */
 public class RutaFactory {
     private List<Bus> buses;
+    /**
+     * Constructor de la clase RutaFactory.
+     *
+     * @param buses Lista de buses disponibles para crear rutas.
+     */
     public RutaFactory(List<Bus> buses){
         this.buses=buses;
     }
+    /**
+     * Crea una lista de rutas entre dos ciudades, con buses disponibles, en diferentes fechas
+     * y horas dentro de un rango predefinido.
+     *
+     * @param ciudadOrigen La ciudad de origen de las rutas.
+     * @param ciudadDestino La ciudad de destino de las rutas.
+     * @return Una lista de rutas generadas.
+     * @throws IllegalArgumentException Si alguna de las ciudades es nula.
+     * @throws IllegalStateException Si no hay buses disponibles.
+     */
     public List<Ruta> crearRutas(Ciudades ciudadOrigen,Ciudades ciudadDestino){
         if (ciudadOrigen == null || ciudadDestino == null) {
             throw new IllegalArgumentException("Origen y destino no pueden ser nulos");
@@ -55,6 +76,14 @@ public class RutaFactory {
 
         return rutas;
     }
+
+    /**
+     * Calcula el precio base de un viaje entre dos ciudades.
+     *
+     * @param origen La ciudad de origen.
+     * @param destino La ciudad de destino.
+     * @return El precio base del viaje.
+     */
     public int crearPrecioViaje(Ciudades origen, Ciudades destino){
         if (origen == Ciudades.LOS_ANGELES && destino == Ciudades.CONCEPCION || origen== Ciudades.CONCEPCION && destino== Ciudades.LOS_ANGELES) {
             return 4000;
@@ -71,6 +100,12 @@ public class RutaFactory {
         }else return 0;
 
     }
+    /**
+     * Calcula el precio adicional de un asiento basado en su tipo.
+     *
+     * @param asiento El tipo de asiento (Estandar, Semi Cama, Cama, Premium).
+     * @return El precio adicional correspondiente al tipo de asiento.
+     */
     public int precioAsiento(TipoAsiento asiento){
         if(asiento== TipoAsiento.ESTANDAR){
             return 0;
@@ -82,6 +117,15 @@ public class RutaFactory {
             return 10000;
         }else return 0;
     }
+    /**
+     * Calcula el precio total de un viaje, considerando el precio base del viaje
+     * y el precio de los asientos en el bus.
+     *
+     * @param origen La ciudad de origen.
+     * @param destino La ciudad de destino.
+     * @param bus El bus que realiza el viaje.
+     * @return El precio total del viaje.
+     */
     public int PrecioTotal(Ciudades origen, Ciudades destino, Bus bus) {
         int precioBase = crearPrecioViaje(origen, destino);
         int precioTotal = precioBase;

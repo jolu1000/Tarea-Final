@@ -4,7 +4,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
-
+/**
+ * Clase de pruebas unitarias para la clase Bus.
+ * Realiza pruebas sobre las funcionalidades de la clase Bus.
+ *
+ * @author Gabriela
+ * @author Joaquin
+ * @author Benjamin
+ */
 class BusTest {
 
     private Bus1Piso bus1Piso;
@@ -31,7 +38,9 @@ class BusTest {
         bus1Piso.inicializarAsientos(numEstandar, numSemiCama, numCama, numPremium);
         bus2Pisos.inicializarAsientos(numEstandar, numSemiCama, numCama, numPremium);
     }
-
+    /**
+     * Test para verificar que un asiento puede ser ocupado correctamente en ambos tipos de buses.
+     */
     @Test
     public void testOcuparAsiento() {
         // Prueba de ocupar un asiento en Bus 1 Piso
@@ -46,7 +55,9 @@ class BusTest {
         assertFalse(asiento2Pisos.isDisponible(), "El asiento no debe estar disponible después de ser ocupado.");
         assertEquals(cliente, asiento2Pisos.getCliente(), "El cliente debe ser asignado correctamente al asiento.");
     }
-
+    /**
+     * Test para verificar que no se pueda ocupar un asiento inexistente en cualquiera de los buses.
+     */
     @Test
     public void testOcuparAsientoInexistente() {
         // Intentar ocupar un asiento que no existe en Bus 1 Piso
@@ -57,8 +68,9 @@ class BusTest {
         Asiento asiento2Pisos = bus2Pisos.ocuparAsiento("X1", cliente);  // El asiento debería ser null o no ocupable
         assertNull(asiento2Pisos, "El asiento no debe existir y no debe poder ser ocupado.");
     }
-
-
+    /**
+     * Test para mostrar los asientos ocupados en ambos tipos de buses.
+     */
     @Test
     public void testMostrarAsientosConClientes() {
         // Ocupamos un asiento en ambos buses y verificamos la salida
@@ -69,7 +81,9 @@ class BusTest {
         bus1Piso.mostrarAsientosConClientes(); // Verificar visualmente en la consola
         bus2Pisos.mostrarAsientosConClientes(); // Verificar visualmente en la consola
     }
-
+    /**
+     * Test para verificar el correcto funcionamiento del método `clone` en los buses.
+     */
     @Test
     public void testCloneBus() {
         // Clonamos el bus 1 piso y 2 pisos, luego verificamos

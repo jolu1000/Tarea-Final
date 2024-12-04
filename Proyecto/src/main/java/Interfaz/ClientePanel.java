@@ -1,21 +1,36 @@
 package Interfaz;
-
 import Logica.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
-
+/**
+ * Panel para la gestión de los datos del cliente y la reserva de asientos y compra de pasajes.
+ * Este panel permite al usuario ingresar sus datos personales, reservar un asiento
+ * y comprar los pasajes correspondientes, mostrando los detalles de la compra.
+ *
+ * @author Gabriela
+ * @author Joaquin
+ * @author Benjamin
+ */
 public class ClientePanel extends JPanel {
     private PanelPrincipal panelPrincipal;
     private JTextField nombreField, apellidoField, rutField, emailField;
     private JButton reservarButton, comprarPasajesButton;
     private Cliente clienteActual;
-
+    /**
+     * Constructor de la clase `ClientePanel`.
+     *
+     * Este constructor inicializa el panel con campos de texto para ingresar los datos del cliente
+     * y botones para realizar la reserva de asiento y la compra de pasajes.
+     *
+     * @param panelPrincipal El panel principal que contiene la interfaz principal de la aplicación.
+     */
     public ClientePanel(PanelPrincipal panelPrincipal) {
         this.panelPrincipal = panelPrincipal;
         setLayout(new BorderLayout());
+        // Panel de formulario para ingresar los datos del cliente
         JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         nombreField = new JTextField();
         apellidoField = new JTextField();
@@ -31,7 +46,7 @@ public class ClientePanel extends JPanel {
         formPanel.add(rutField);
         formPanel.add(new JLabel("Email:"));
         formPanel.add(emailField);
-
+        // Panel de botones para reservar y comprar pasajes
         JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
         buttonPanel.add(reservarButton);
 
@@ -41,14 +56,20 @@ public class ClientePanel extends JPanel {
         add(formPanel, BorderLayout.CENTER);
 
         add(buttonPanel, BorderLayout.SOUTH);
-
+        // Ajustar el tamaño de los botones
         Dimension buttonSize = reservarButton.getPreferredSize();
         comprarPasajesButton.setPreferredSize(buttonSize);
-
+        // Agregar listeners para los botones
         reservarButton.addActionListener(this::reservarAsiento);
         comprarPasajesButton.addActionListener(this::comprarPasajes);
     }
-
+    /**
+     * Método para realizar la reserva de un asiento.
+     * Este método valida los datos ingresados, crea o actualiza el cliente, y realiza la reserva del asiento.
+     * Si todo es correcto, muestra un mensaje de éxito, de lo contrario muestra mensajes de error.
+     *
+     * @param e El evento generado por el clic en el botón "Reservar Asiento".
+     */
     private void reservarAsiento(ActionEvent e) {
         try {
             String nombre = nombreField.getText();
@@ -90,7 +111,12 @@ public class ClientePanel extends JPanel {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    /**
+     * Método para realizar la compra de los pasajes.
+     * Este método muestra los detalles de los asientos comprados y el total de la compra.
+     *
+     * @param e El evento generado por el clic en el botón "Comprar Pasajes".
+     */
     private void comprarPasajes(ActionEvent e) {
         Ruta rutaSeleccionada = panelPrincipal.getPanelSeleccionRuta().getRutaSeleccionada();
         if (rutaSeleccionada == null) {
@@ -141,7 +167,12 @@ public class ClientePanel extends JPanel {
         rutField.setText("");
         emailField.setText("");
     }
-
+    /**
+     * Método para validar el formato del RUT ingresado.
+     *
+     * @param rut El RUT a validar.
+     * @return True si el RUT tiene el formato correcto, false en caso contrario.
+     */
     private boolean validarRut(String rut) {
         String[] partes = rut.split("-");
         if (partes.length != 2) {

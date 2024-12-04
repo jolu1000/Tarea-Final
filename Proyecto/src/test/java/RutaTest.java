@@ -4,7 +4,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalTime;
 import java.util.Date;
-
+/**
+ * Clase de pruebas unitarias para la clase Ruta.
+ * Esta clase contiene pruebas que validan la correcta creación y manipulación de rutas,
+ * incluyendo la verificación de ciudades de origen y destino, precios, horas y buses asociados.
+ *
+ * @author Gabriela
+ * @author Joaquin
+ * @author Benjamin
+ */
 public class RutaTest {
 
     private Bus1Piso bus1;
@@ -27,7 +35,9 @@ public class RutaTest {
         LocalTime hora2 = LocalTime.of(10, 45);
         ruta2 = new Ruta(Ciudades.SANTIAGO, Ciudades.CONCEPCION, fecha2, hora2, 12000, bus2);
     }
-
+    /**
+     * Prueba que la ruta se haya creado correctamente con los valores esperados.
+     */
     @Test
     public void testRutaCreadaCorrectamente() {
         // Verificar que la ruta se ha creado correctamente
@@ -37,14 +47,18 @@ public class RutaTest {
         assertEquals(15000, ruta1.getPrecio(), "El precio debe ser 15000.");
         assertNotNull(ruta1.getBus(), "El bus de la ruta no debe ser nulo.");
     }
-
+    /**
+     * Prueba que la hora de la ruta sea correcta.
+     */
     @Test
     public void testRutaConHoraCorrecta() {
         // Verificar que la hora de la ruta es correcta
         assertEquals(LocalTime.of(8, 30), ruta1.getHora(), "La hora debe ser 08:30.");
         assertEquals(LocalTime.of(10, 45), ruta2.getHora(), "La hora debe ser 10:45.");
     }
-
+    /**
+     * Prueba que el cambio de bus en la ruta se realice correctamente.
+     */
     @Test
     public void testCambioDeBus() {
         // Cambiar el bus de una ruta y verificar que el cambio se realizó correctamente
@@ -52,27 +66,35 @@ public class RutaTest {
         ruta1.setBus(nuevoBus);
         assertEquals(nuevoBus, ruta1.getBus(), "El bus de la ruta debe haber cambiado correctamente.");
     }
-
+    /**
+     * Prueba que el precio de la ruta sea el correcto.
+     */
     @Test
     public void testPrecioRuta() {
         // Verificar que el precio de la ruta es el correcto
         assertEquals(15000, ruta1.getPrecio(), "El precio de la ruta debe ser 15000.");
         assertEquals(12000, ruta2.getPrecio(), "El precio de la ruta debe ser 12000.");
     }
-
+    /**
+     * Prueba que la fecha de la ruta no sea nula.
+     */
     @Test
     public void testRutaConFechaCorrecta() {
         // Verificar que la fecha de la ruta no sea nula
         assertNotNull(ruta1.getFecha(), "La fecha de la ruta no debe ser nula.");
     }
-
+    /**
+     * Prueba que el cambio de ciudad de destino en la ruta se realice correctamente.
+     */
     @Test
     public void testCambioDeCiudadDestino() {
         // Cambiar la ciudad de destino de la ruta y verificar que el cambio se realizó correctamente
         ruta1.setCiudadDestino(Ciudades.CONCEPCION);
         assertEquals(Ciudades.CONCEPCION, ruta1.getCiudadDestino(), "La ciudad de destino debe ser PUERTO_MONTT.");
     }
-
+    /**
+     * Prueba que dos rutas con diferentes ciudades de destino y buses sean distintas.
+     */
     @Test
     public void testComparacionRutas() {
         // Verificar que las rutas con diferentes ciudades y buses sean distintas
