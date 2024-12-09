@@ -4,6 +4,8 @@ import Logica.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 /**
  * La clase AsientosPanel es responsable de mostrar la distribución de los asientos en la interfaz gráfica
@@ -15,12 +17,15 @@ import java.util.List;
  */
 public class AsientosPanel extends JPanel {
     private JPanel asientosPanel;
+    private Asiento asientoSeleccionado;
+    private PanelPrincipal panelPrincipal;
     /**
      * Constructor de la clase AsientosPanel.
      * Inicializa el panel que contendrá los asientos y lo coloca dentro de un JScrollPane
      * para permitir la visualización de una gran cantidad de asientos si es necesario.
      */
-    public AsientosPanel() {
+    public AsientosPanel(PanelPrincipal panelPrincipal) {
+        this.panelPrincipal = panelPrincipal;
         setLayout(new BorderLayout());
         asientosPanel = new JPanel();
         add(new JScrollPane(asientosPanel), BorderLayout.CENTER);
@@ -49,7 +54,33 @@ public class AsientosPanel extends JPanel {
                     : Color.RED);
             asientoButton.setEnabled(asiento.isDisponible());
 
-            asientoButton.addActionListener(event -> mostrarDetallesAsiento(asiento, rutaSeleccionada));
+            // Manejar clic izquierdo (selección de asiento) y clic derecho (info del asiento)
+            asientoButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    if (e.getButton() == MouseEvent.BUTTON1) {
+                        // Si el asiento no está disponible, no permitir la selección
+                        if (!asiento.isDisponible()) {
+                            JOptionPane.showMessageDialog(AsientosPanel.this,
+                                    "Este asiento ya está reservado. No se puede seleccionar.",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+
+                        // Seleccionar el asiento
+                        asientoSeleccionado = asiento;
+                        panelPrincipal.getPanelReservaCliente().setAsientoSeleccionado(asiento);
+                        JOptionPane.showMessageDialog(AsientosPanel.this,
+                                "Asiento seleccionado: " + asiento.getId(),
+                                "Selección de Asiento", JOptionPane.INFORMATION_MESSAGE);
+                    } else if (e.getButton() == MouseEvent.BUTTON3) {
+                        // Clic derecho, mostrar detalles del asiento reservado (si está reservado)
+                        mostrarDetallesAsiento(asiento, rutaSeleccionada);
+                    }
+                }
+            });
+
+
             asientosPanel.add(asientoButton);
         }
 
@@ -65,18 +96,33 @@ public class AsientosPanel extends JPanel {
      * @param rutaSeleccionada La ruta seleccionada para calcular los precios.
      */
     private void mostrarDetallesAsiento(Asiento asiento, Ruta rutaSeleccionada) {
-        RutaFactory rutaFactory = new RutaFactory(List.of(rutaSeleccionada.getBus()));
-        String categoria = asiento.getTipoAsiento().name();
-        int precioAsiento = rutaFactory.precioAsiento(asiento.getTipoAsiento());
-        int precioRuta = rutaFactory.crearPrecioViaje(rutaSeleccionada.getCiudadOrigen(), rutaSeleccionada.getCiudadDestino());
-        int precioTotal = precioAsiento + precioRuta;
+        if (!asiento.isDisponible()) {
+            // El asiento está reservado, mostrar los detalles del cliente
+            Cliente clienteReservado = asiento.getCliente();  // Obtener el cliente del asiento
+            String detalles = "Asiento reservado por:\n" +
+                    "Nombre: " + clienteReservado.getNombre() + "\n" +
+                    "Apellido: " + clienteReservado.getApellido() + "\n" +
+                    "RUT: " + clienteReservado.getRut() + "\n" +
+                    "Email: " + clienteReservado.getEmail();
+            JOptionPane.showMessageDialog(this,
+                    detalles,
+                    "Detalles del Asiento Reservado", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // Si el asiento está disponible, mostrar detalles normales
+            RutaFactory rutaFactory = new RutaFactory(List.of(rutaSeleccionada.getBus()));
+            String categoria = asiento.getTipoAsiento().name();
+            int precioAsiento = rutaFactory.precioAsiento(asiento.getTipoAsiento());
+            int precioRuta = rutaFactory.crearPrecioViaje(rutaSeleccionada.getCiudadOrigen(), rutaSeleccionada.getCiudadDestino());
+            int precioTotal = precioAsiento + precioRuta;
 
-        JOptionPane.showMessageDialog(this,
-                "Asiento: " + asiento.getId() + "\n" +
-                        "Categoría: " + categoria + "\n" +
-                        "Precio del Asiento: $" + precioAsiento + "\n" +
-                        "Precio de la Ruta: $" + precioRuta + "\n" +
-                        "Precio Total: $" + precioTotal,
-                "Detalles del Asiento", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Asiento: " + asiento.getId() + "\n" +
+                            "Categoría: " + categoria + "\n" +
+                            "Precio del Asiento: $" + precioAsiento + "\n" +
+                            "Precio de la Ruta: $" + precioRuta + "\n" +
+                            "Precio Total: $" + precioTotal,
+                    "Detalles del Asiento", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
+
 }

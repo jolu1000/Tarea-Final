@@ -77,13 +77,17 @@ public abstract class Asiento implements Cloneable {
      * @throws IllegalStateException si el asiento ya está ocupado.
      */
     public void setCliente(Cliente cliente) {
-        if (this.disponible) {
+        if (cliente == null) {
+            this.cliente = null;
+            this.disponible = true;  // Si el cliente es nulo, el asiento debe estar disponible
+        } else if (this.disponible) {
             this.cliente = cliente;
-            this.ocupar();
+            this.ocupar();  // Si el asiento está disponible, lo ocupa
         } else {
             throw new IllegalStateException("Este asiento ya está ocupado.");
         }
     }
+
     /**
      * Crea y devuelve una copia del objeto actual.
      *

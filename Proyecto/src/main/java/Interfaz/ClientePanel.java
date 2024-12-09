@@ -19,6 +19,7 @@ public class ClientePanel extends JPanel {
     private JTextField nombreField, apellidoField, rutField, emailField;
     private JButton reservarButton, comprarPasajesButton;
     private Cliente clienteActual;
+    private Asiento asientoSeleccionado;
     /**
      * Constructor de la clase `ClientePanel`.
      *
@@ -30,7 +31,7 @@ public class ClientePanel extends JPanel {
     public ClientePanel(PanelPrincipal panelPrincipal) {
         this.panelPrincipal = panelPrincipal;
         setLayout(new BorderLayout());
-        // Panel de formulario para ingresar los datos del cliente
+
         JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         nombreField = new JTextField();
         apellidoField = new JTextField();
@@ -46,7 +47,7 @@ public class ClientePanel extends JPanel {
         formPanel.add(rutField);
         formPanel.add(new JLabel("Email:"));
         formPanel.add(emailField);
-        // Panel de botones para reservar y comprar pasajes
+
         JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
         buttonPanel.add(reservarButton);
 
@@ -54,12 +55,11 @@ public class ClientePanel extends JPanel {
         buttonPanel.add(comprarPasajesButton);
 
         add(formPanel, BorderLayout.CENTER);
-
         add(buttonPanel, BorderLayout.SOUTH);
-        // Ajustar el tamaño de los botones
+
         Dimension buttonSize = reservarButton.getPreferredSize();
         comprarPasajesButton.setPreferredSize(buttonSize);
-        // Agregar listeners para los botones
+
         reservarButton.addActionListener(this::reservarAsiento);
         comprarPasajesButton.addActionListener(this::comprarPasajes);
     }
@@ -70,8 +70,17 @@ public class ClientePanel extends JPanel {
      *
      * @param e El evento generado por el clic en el botón "Reservar Asiento".
      */
+    public void setAsientoSeleccionado(Asiento asiento) {
+        this.asientoSeleccionado = asiento;
+    }
+
     private void reservarAsiento(ActionEvent e) {
         try {
+            if (asientoSeleccionado == null) {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un asiento antes de reservar.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             String nombre = nombreField.getText();
             String apellido = apellidoField.getText();
             String rut = rutField.getText();
@@ -79,26 +88,25 @@ public class ClientePanel extends JPanel {
 
             if (!nombre.isBlank() && !apellido.isBlank() && !rut.isBlank() && !email.isBlank()) {
                 if (!validarRut(rut)) {
-                    JOptionPane.showMessageDialog(this, "El RUT ingresado no es válido. Asegúrese de que el formato sea correcto.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "El RUT ingresado no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
                     rutField.setText("");
                     return;
                 }
 
                 if (clienteActual == null) {
-                    clienteActual = new Cliente(nombre, apellido, rut, email); // Crear cliente solo si no hay uno
+                    clienteActual = new Cliente(nombre, apellido, rut, email);
                 } else {
-                    clienteActual.setNombre(nombre); // Si ya existe, actualiza los datos
+                    clienteActual.setNombre(nombre);
                     clienteActual.setApellido(apellido);
                     clienteActual.setRut(rut);
                     clienteActual.setEmail(email);
                 }
 
                 Ruta rutaSeleccionada = panelPrincipal.getPanelSeleccionRuta().getRutaSeleccionada();
-                String asientoId = JOptionPane.showInputDialog(this, "Ingrese el ID del asiento:");
+                Asiento asiento = rutaSeleccionada.getBus().ocuparAsiento(asientoSeleccionado.getId(), clienteActual);
 
-                Asiento asiento = rutaSeleccionada.getBus().ocuparAsiento(asientoId, clienteActual);
                 if (asiento != null) {
-                    clienteActual.agregarAsientoReservado(asiento);  // Agregar el asiento a la lista del cliente
+                    clienteActual.agregarAsientoReservado(asiento);
                     JOptionPane.showMessageDialog(this, "Asiento reservado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     panelPrincipal.getAsientosPanel().mostrarDistribucionAsientos(rutaSeleccionada);
                 } else {
@@ -129,7 +137,7 @@ public class ClientePanel extends JPanel {
             return;
         }
 
-        List<Asiento> asientosComprados = clienteActual.getAsientosReservados();  // Obtener todos los asientos reservados por el cliente
+        List<Asiento> asientosComprados = clienteActual.getAsientosReservados();
         if (asientosComprados.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No hay asientos comprados.", "Información", JOptionPane.INFORMATION_MESSAGE);
             return;

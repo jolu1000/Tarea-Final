@@ -17,7 +17,6 @@ import java.util.List;
  * @author Benjamin
  */
 public class PanelPrincipal extends JPanel {
-
     private RutaFactory rutaFactory;
     private RutaPanel panelSeleccionRuta;
     private AsientosPanel panelAsientos;
@@ -44,7 +43,7 @@ public class PanelPrincipal extends JPanel {
         panelSeleccionRuta = new RutaPanel(rutas, this::mostrarDistribucionAsientos);
         add(panelSeleccionRuta, BorderLayout.NORTH);
 
-        panelAsientos = new AsientosPanel();
+        panelAsientos = new AsientosPanel(this);
         add(new JScrollPane(panelAsientos), BorderLayout.CENTER);
 
         panelReservaCliente = new ClientePanel(this);
@@ -54,6 +53,10 @@ public class PanelPrincipal extends JPanel {
     /**
      * Getters y Setters del panel principal
      */
+    public ClientePanel getPanelReservaCliente() {
+        return panelReservaCliente;  // Devuelve la instancia de ClientePanel
+    }
+
     public RutaPanel getPanelSeleccionRuta() {
         return panelSeleccionRuta;
     }
