@@ -1,4 +1,5 @@
 package Interfaz;
+
 import Logica.*;
 
 import javax.swing.*;
@@ -7,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+
 /**
  * La clase AsientosPanel es responsable de mostrar la distribución de los asientos en la interfaz gráfica
  * y proporcionar detalles sobre los asientos cuando el usuario interactúa con ellos.
@@ -19,6 +21,7 @@ public class AsientosPanel extends JPanel {
     private JPanel asientosPanel;
     private Asiento asientoSeleccionado;
     private PanelPrincipal panelPrincipal;
+
     /**
      * Constructor de la clase AsientosPanel.
      * Inicializa el panel que contendrá los asientos y lo coloca dentro de un JScrollPane
@@ -29,7 +32,12 @@ public class AsientosPanel extends JPanel {
         setLayout(new BorderLayout());
         asientosPanel = new JPanel();
         add(new JScrollPane(asientosPanel), BorderLayout.CENTER);
+
+        // Añadir leyenda
+        JPanel leyendaPanel = crearLeyenda();
+        add(leyendaPanel, BorderLayout.NORTH);
     }
+
     /**
      * Muestra la distribución de los asientos en un bus de acuerdo con la ruta seleccionada.
      * Los asientos se organizan en una cuadrícula con botones representando cada uno.
@@ -80,7 +88,6 @@ public class AsientosPanel extends JPanel {
                 }
             });
 
-
             asientosPanel.add(asientoButton);
         }
 
@@ -125,4 +132,49 @@ public class AsientosPanel extends JPanel {
         }
     }
 
+    /**
+     * Crea un panel de leyenda para mostrar el significado de los colores asociados a los asientos.
+     *
+     * @return JPanel que contiene la leyenda de colores.
+     */
+    private JPanel crearLeyenda() {
+        JPanel leyendaPanel = new JPanel();
+        leyendaPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        // Agregar los elementos de la leyenda
+        leyendaPanel.add(crearItemLeyenda("Estandar", AsientoColor.getColorPorTipo(TipoAsiento.ESTANDAR)));
+        leyendaPanel.add(crearItemLeyenda("Semi Cama", AsientoColor.getColorPorTipo(TipoAsiento.SEMI_CAMA)));
+        leyendaPanel.add(crearItemLeyenda("Cama", AsientoColor.getColorPorTipo(TipoAsiento.CAMA)));
+        leyendaPanel.add(crearItemLeyenda("Premium", AsientoColor.getColorPorTipo(TipoAsiento.PREMIUM)));
+        leyendaPanel.add(crearItemLeyenda("Ocupado", Color.RED));
+
+        return leyendaPanel;
+    }
+
+    /**
+     * Crea un elemento individual de la leyenda, que incluye un cuadro de color y una etiqueta de texto.
+     *
+     * @param texto Descripción del tipo de asiento.
+     * @param color Color representativo del tipo de asiento.
+     * @return JPanel que representa un elemento de la leyenda.
+     */
+    private JPanel crearItemLeyenda(String texto, Color color) {
+        JPanel itemPanel = new JPanel();
+        itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        // Crear un cuadro de color
+        JLabel colorLabel = new JLabel(" ");
+        colorLabel.setOpaque(true);
+        colorLabel.setBackground(color);
+        colorLabel.setPreferredSize(new Dimension(20, 20));
+
+        // Añadir el texto descriptivo
+        JLabel textoLabel = new JLabel(texto);
+
+        // Añadir componentes al panel
+        itemPanel.add(colorLabel);
+        itemPanel.add(textoLabel);
+
+        return itemPanel;
+    }
 }
